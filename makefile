@@ -12,9 +12,9 @@ help:
 	@echo
 
 venv:
-	virtualenv -p python3 $(VENV_PATH)
+	python3 -m venv $(VENV_PATH)
 	$(VENV_PATH)/bin/pip install -r requirements.txt
-	$(VENV_PATH)/bin/pip install -r requirements_dev.txt
+	$(VENV_PATH)/bin/pip install -r requirements_doc.txt
 	$(VENV_PATH)/bin/pip install -r requirements_test.txt
 
 
