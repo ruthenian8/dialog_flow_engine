@@ -235,7 +235,7 @@ class Actor(BaseModel):
 
     @validate_arguments
     def _run_processing(self, ctx: Context, *args, **kwargs) -> Context:
-        ctx.a_s["processed_node"] = copy.deepcopy(ctx.a_s["next_node"])
+        ctx.a_s["processed_node"] = ctx.a_s["next_node"].copy(deep=False)
         ctx = ctx.a_s["next_node"].run_processing(ctx, self, *args, **kwargs)
         return ctx
 
@@ -299,7 +299,7 @@ class Actor(BaseModel):
             ctx = Context()
             ctx.validation = True
             ctx.add_request("text")
-            actor = self.copy(deep=True)
+            actor = self.copy(deep=False)
 
             label = label(ctx, actor) if isinstance(label, Callable) else normalize_label(label, flow_label)
 
@@ -358,4 +358,4 @@ def deep_copy_condition_handler(condition: Callable, ctx: Context, actor: Actor,
     actor: Actor
         :py:class:`~df_engine.core.actor.Actor` we use in this condition
     """
-    return condition(ctx.copy(deep=True), actor.copy(deep=True), *args, **kwargs)
+    return condition(ctx.copy(deep=False), actor.copy(deep=False), *args, **kwargs)
